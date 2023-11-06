@@ -1,5 +1,10 @@
 <h1>Расчет покупок</h1>
 <p>
+    <a href="user">
+        <button>Пользователи</button>
+    </a>
+</p>
+<p>
     <a href="add_money">
         <button>Добавить деньги на счет</button>
     </a>

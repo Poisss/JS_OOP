@@ -4,6 +4,7 @@ $path= $_SERVER['REQUEST_URI'];
 $command=explode('/',$path);
 match ($command[3]) {
     '' => 'main',
+    'user'=> user(),
     'categories'=> categories(),
     'addMoney'=> addMoney(),
     'addPurchase'=> addPurchase(),
@@ -14,6 +15,8 @@ match ($command[3]) {
 };
 function test(){
     include 'database/db.php';
+    header('Content-Type: application/json');
+    http_response_code(200);
     $result2=$db->query("select price from products");
     $arr=$result2->fetchAll(PDO::FETCH_ASSOC);
     $spent=0;
@@ -22,8 +25,19 @@ function test(){
     }
     var_dump($spent);
 };
+function user(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $result=$db->query("select * from user");
+    $user=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['user'=>$user]);
+};
 function balance(){
     include 'database/db.php';
+    header('Content-Type: application/json');
+    http_response_code(200);
     $result1=$db->query("select balance from user");
     $balance=$result1->fetchAll(PDO::FETCH_ASSOC)[0]['balance'];
     $result2=$db->query("select price from products");
@@ -39,7 +53,7 @@ function addMoney(){
     header('Content-Type: application/json');
     http_response_code(200);
     $money=explode('/', $_SERVER['REQUEST_URI'])[4];
-    $db->query("update user set balance=balance+'$money'");
+    $db->query("update user set balance=balance+'$money' where id=1");
     echo json_encode(['status'=>'Деньги добавлены']);
 };
 function addPurchase(){

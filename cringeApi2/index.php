@@ -11,6 +11,7 @@
         $command=explode('/',$path);
         match ($command[3]) {
             '' => include 'layouts/main.php',
+            'user' => include 'layouts/user.html',
             'balance' => include 'layouts/balance.php',
             'add_money' => include 'layouts/add_money.php',
             'add_purchase' => include 'layouts/add_purchase.php',
