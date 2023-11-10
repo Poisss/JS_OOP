@@ -5,6 +5,9 @@ $command=explode('/',$path);
 match ($command[3]) {
     '' => 'main',
     'user'=> user(),
+    'sum'=> sum(),
+    'userLast'=> userLast(),
+    'commentLast'=> commentLast(),
     'categories'=> categories(),
     'addMoney'=> addMoney(),
     'addPurchase'=> addPurchase(),
@@ -24,6 +27,33 @@ function test(){
         $spent+=$value['price'];
     }
     var_dump($spent);
+};
+function commentLast(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $result=$db->query("select * from comment order by time desc limit 1");
+    $comment=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['comment'=>$comment]);
+};
+function userLast(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $result=$db->query("select * from user order by id desc limit 1");
+    $user=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['user'=>$user]);
+};
+function sum(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $result=$db->query("select sum(balance) as balance from user");
+    $user=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['user'=>$user]);
 };
 function user(){
     include 'database/db.php';

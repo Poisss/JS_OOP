@@ -12,6 +12,11 @@
         match ($command[3]) {
             '' => include 'layouts/main.php',
             'user' => include 'layouts/user.html',
+            'userLast' => include 'layouts/user_last.php',
+            'table' => include 'layouts/table.php',
+            'commentLast' => include 'layouts/comment_last.php',
+            'sum' => include 'layouts/sum.php',
+            'table' => include 'layouts/table.php',
             'balance' => include 'layouts/balance.php',
             'add_money' => include 'layouts/add_money.php',
             'add_purchase' => include 'layouts/add_purchase.php',
