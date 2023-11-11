@@ -4,6 +4,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <style>
+            td{
+                min-width: 100px;
+                border: 1px solid black;
+            }
+        </style>
     </head>
     <body>
         <h1>Таблица</h1>
@@ -26,29 +32,36 @@
                 element.addEventListener('click',(event)=>{
                     if(name==event.target.innerText){
                         sort=(sort=='ASC')?'DESC':'ASC';
+                        table1(name,sort)
                         console.log(sort)
                     }
                     else{
                         name=event.target.innerText
-                        sort='ACS'
+                        sort='ASC'
+                        table1(name,sort)
                         console.log(sort)
                     }
                 })
-            })
-            // function table(){     
-            //     fetch('http://localhost/cringeProject/cringeApiTwo2/table', {
-            //     method: 'POST',
-            //     body: param
-            //     })
-            //     .then((e)=>e.json())
-            //     .then((data)=>{
-            //         data['table'].forEach(element => {
-            //             table.innerHTML= '<tr><td>'+element['name']+'</td><td>'+element['team']+'</td><td>'
-            //                 +element['game']+'</td><td>'+element['goal']+'</td><td>'+element['pass']+'</td><td>'+element['point']+'</td><tr>'
-            //         });
-            //     })
-            // }
-            // table()
+            });
+            function table1(x,y){
+                let url ='http://localhost/cringeProject/cringeApiTwo2/table'  
+                fetch(url, {
+                method: 'POST',
+                headers: {
+                    "name": "application/json",
+                    "sort": "application/json",
+                },
+                body: JSON.stringify({name:x,sort:y})
+                })
+                .then((e)=>e.json())
+                .then((data)=>{
+                    data['table'].forEach(element => {
+                        table.innerHTML+= '<tr><td>'+element['name']+'</td><td>'+element['team']+'</td><td>'
+                            +element['game']+'</td><td>'+element['goal']+'</td><td>'+element['pass']+'</td><td>'+element['point']+'</td><tr>'
+                    });
+                })
+            };
+            table1('all','ASC');
         </script>
         <a href="http://localhost/cringeProject/cringeApi2/">Вернуться на главную</a>
     </body>

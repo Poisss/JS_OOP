@@ -5,8 +5,9 @@ $command=explode('/',$path);
 match ($command[3]) {
     '' => 'main',
     'user'=> user(),
-    'sum'=> sum(),
     'userLast'=> userLast(),
+    'table'=> table(),
+    'sum'=> sum(),
     'commentLast'=> commentLast(),
     'categories'=> categories(),
     'addMoney'=> addMoney(),
@@ -27,6 +28,22 @@ function test(){
         $spent+=$value['price'];
     }
     var_dump($spent);
+};
+function table(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200); 
+    $name=json_decode($_REQUEST['name']);
+    $sort=json_decode($_REQUEST['sort']);
+    // if($name=='all'){
+    //     $result=$db->query("select *,(goal+pass) as point from user limit 10");
+    // }else{
+    //     $result=$db->query("select *,(goal+pass) as point from user order by '$name' '$sort' limit 10");
+    // }
+    $result=$db->query("select *,(goal+pass) as point from user limit 10");
+    $table=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['table'=>$table]);
 };
 function commentLast(){
     include 'database/db.php';
