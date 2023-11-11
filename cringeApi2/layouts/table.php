@@ -9,11 +9,15 @@
                 min-width: 100px;
                 border: 1px solid black;
             }
+            .game{
+                cursor: pointer;
+                z-index: 100;
+            }
         </style>
     </head>
     <body>
         <h1>Таблица</h1>
-        <table class="table">
+        <table>
             <tr>
                 <td>name</td>
                 <td>team</td>
@@ -22,6 +26,9 @@
                 <td class="game">pass</td>
                 <td class="game">point</td>
             </tr>
+        </table>
+        <table class="table">
+
         </table>
         <script>
             let table=document.querySelector('.table')
@@ -45,11 +52,11 @@
             });
             function table1(x,y){
                 let url ='http://localhost/cringeProject/cringeApiTwo2/table'  
+                table.innerHTML=''
                 fetch(url, {
                 method: 'POST',
                 headers: {
-                    "name": "application/json",
-                    "sort": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({name:x,sort:y})
                 })

@@ -34,16 +34,16 @@ function table(){
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');
     http_response_code(200); 
-    $name=json_decode($_REQUEST['name']);
-    $sort=json_decode($_REQUEST['sort']);
-    // if($name=='all'){
-    //     $result=$db->query("select *,(goal+pass) as point from user limit 10");
-    // }else{
-    //     $result=$db->query("select *,(goal+pass) as point from user order by '$name' '$sort' limit 10");
-    // }
-    $result=$db->query("select *,(goal+pass) as point from user limit 10");
+    $data = json_decode(file_get_contents('php://input'), true);
+    $name=$data['name'];
+    $sort=$data['sort'];
+    if($name=='all'){
+        $result=$db->query("select *,(goal+pass) as point from user limit 10");
+    }else{
+        $result=$db->query("select *,(goal+pass) as point from user order by $name $sort limit 10");
+    }
     $table=$result->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode(['table'=>$table]);
+    echo json_encode(['table'=>$table,'name'=>$name,'sort'=>$sort,]);
 };
 function commentLast(){
     include 'database/db.php';
