@@ -6,6 +6,9 @@ match ($command[3]) {
     '' => 'main',
     'user'=> user(),
     'userLast'=> userLast(),
+    'student'=> student(),
+    'author'=> author(),
+    'book'=> book(),
     'table'=> table(),
     'sum'=> sum(),
     'commentLast'=> commentLast(),
@@ -29,6 +32,41 @@ function test(){
     }
     var_dump($spent);
 };
+function author(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $result=$db->query("select * from author");  
+    $author=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['author'=>$author,]);
+};
+function book(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $id=explode('/',$_SERVER['REQUEST_URI'])[4];
+    $result=$db->query("select * from book where author_id='$id'");  
+    $book=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['book'=>$book,]);
+};
+function student(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $str=explode('/',$_SERVER['REQUEST_URI']);
+    if(empty($str[4])){
+        $result=$db->query("select * from student");
+    }else{
+        $id=$str[4];
+        $result=$db->query("select * from student where id='$id'");
+    }   
+    
+    $student=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['student'=>$student,]);
+};    
 function table(){
     include 'database/db.php';
     header('Content-Type: application/json');

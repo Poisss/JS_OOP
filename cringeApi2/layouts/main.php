@@ -4,10 +4,24 @@
         <button>Пользователи</button>
     </a>
 </p>
-
 <p>
     <a href="userLast">
         <button>Последний пользователь</button>
+    </a>
+</p>
+<p>
+    <a href="student">
+        <button>Студенты</button>
+    </a>
+</p>
+<p>
+    <a href="author">
+        <button>Автор</button>
+    </a>
+</p>
+<p>
+    <a href="input">
+        <button>Ввод имени</button>
     </a>
 </p>
 <p>
