@@ -11,11 +11,13 @@
         $command=explode('/',$path);
         match ($command[3]) {
             '' => include 'layouts/main.php',
+            'basket' => include 'layouts/basket.php',
             'user' => include 'layouts/user.html',
             'userLast' => include 'layouts/user_last.php',
             'student' => include 'layouts/student.php',
             'author' => include 'layouts/author.php',
             'input' => include 'layouts/input.php',
+            'pokemon' => include 'layouts/pokemon.php',
             'table' => include 'layouts/table.php',
             'commentLast' => include 'layouts/comment_last.php',
             'sum' => include 'layouts/sum.php',

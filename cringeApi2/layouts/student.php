@@ -28,6 +28,7 @@
                     });
                 });
             }
+            
             function info1(){
                 let btn_student=document.querySelectorAll('.btn_student');
                 btn_student.forEach(element=>{
@@ -45,7 +46,6 @@
                         student.innerHTML+= '<p><input type="radio" id="radio'+element['id']+'" class="btn_student" name="name" value="'+element['id']+'"><label for="radio'+element['id']+'">'+element['name']+'</label></p>';
                     });
                 });
-                // student.addEventListener("load", info1);
                 setTimeout(info1, 1000);
             }
             student1()

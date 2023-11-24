@@ -4,10 +4,12 @@ $path= $_SERVER['REQUEST_URI'];
 $command=explode('/',$path);
 match ($command[3]) {
     '' => 'main',
+    'basket'=> basket(),
     'user'=> user(),
     'userLast'=> userLast(),
     'student'=> student(),
     'author'=> author(),
+    'input'=> input(),
     'book'=> book(),
     'table'=> table(),
     'sum'=> sum(),
@@ -32,6 +34,15 @@ function test(){
     }
     var_dump($spent);
 };
+function basket(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $result=$db->query("select * from products");
+    $product=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['product'=>$product,]);
+};    
 function author(){
     include 'database/db.php';
     header('Content-Type: application/json');
@@ -50,6 +61,17 @@ function book(){
     $result=$db->query("select * from book where author_id='$id'");  
     $book=$result->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(['book'=>$book,]);
+};
+function input(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $data = json_decode(file_get_contents('php://input'), true);
+    $text=$data['name'].'%';
+    $result=$db->query("select * from student where name like '$text'");  
+    $name=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['name'=>$name,'text'=>$text]);
 };
 function student(){
     include 'database/db.php';

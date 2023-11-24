@@ -1,4 +1,14 @@
-<h1>Расчет покупок</h1>
+<h1>Меню</h1>
+<p>
+    <a href="basket">
+        <button>Корзина</button>
+    </a>
+</p>
+<p>
+    <a href="pokemon">
+        <button>pokemon</button>
+    </a>
+</p>
 <p>
     <a href="user">
         <button>Пользователи</button>
