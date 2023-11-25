@@ -5,6 +5,7 @@ $command=explode('/',$path);
 match ($command[3]) {
     '' => 'main',
     'basket'=> basket(),
+    'buy'=> buy(),
     'user'=> user(),
     'userLast'=> userLast(),
     'student'=> student(),
@@ -34,13 +35,31 @@ function test(){
     }
     var_dump($spent);
 };
+function buy(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $id=explode('/',$_SERVER['REQUEST_URI'])[4];
+    $qty=explode('/',$_SERVER['REQUEST_URI'])[5];
+    $result=$db->query("update products set qty=qry-$qty where id=$id");  
+    $author=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['author'=>$author,]);
+};
 function basket(){
     include 'database/db.php';
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');
     http_response_code(200);
-    $result=$db->query("select * from products");
-    $product=$result->fetchAll(PDO::FETCH_ASSOC);
+    $str=explode('/',$_SERVER['REQUEST_URI']);
+    if(empty($str[4])){
+        $result=$db->query("select * from products");
+        $product=$result->fetchAll(PDO::FETCH_ASSOC);
+    }else{
+        $id=$str[4];
+        $result=$db->query("select * from products where id='$id'");
+        $product=$result->fetchAll(PDO::FETCH_ASSOC)[0];
+    }  
     echo json_encode(['product'=>$product,]);
 };    
 function author(){

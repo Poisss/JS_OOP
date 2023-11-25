@@ -73,13 +73,13 @@
                     </div>
                     <hr>
                     <h1>
-                        Всего: <span class=""></span>р
+                        Всего: <span class="price"></span>р
                     </h1>
                     <hr>
                     <button>
                         Купить
                     </button>
-                    <button>
+                    <button class="btn-clear">
                         Очистить
                     </button>
                 </div>
@@ -98,18 +98,37 @@ let dialog=document.querySelector('.dialog')
 let btn_basket=document.querySelector('.btn-basket')
 let btn_close=document.querySelector('.btn-close')
 let content=document.querySelector('.content')
+let dialog_content=document.querySelector('.dialog-content')
+let price=document.querySelector('.price')
+let btn_clear=document.querySelector('.btn-clear')
 let basket=[]
 let pull=document.querySelector('.pull')
 let clear=document.querySelector('.clear')
-btn_basket.addEventListener('click',()=>{     
-        if(basket==null){
-            pull.style.display='none'
-            clear.style.display='block'
+btn_clear.addEventListener('click',()=>{
+    basket=[]
+    pull.style.display='none'
+    clear.style.display='block'
+})
+btn_basket.addEventListener('click',()=>{   
+        if(basket.length>0){
+            dialog_content.innerHTML=''
+            let sum_p=0
+            basket.forEach((element)=>{
+                fetch('http://localhost/cringeProject/cringeApiTwo2/basket/'+element['id'])
+                .then((e)=>e.json())
+                .then((data)=>{
+                    dialog_content.innerHTML+='<p>'+data['product']['name']+': '+element['qty']+' - '+data['product']['price']+'p</p>'
+                    sum_p+=data['product']['price']*element['qty']
+                    price.innerHTML=sum_p
+                });
+            })
+            pull.style.display='block'
+            clear.style.display='none'
             dialog.showModal()
         }
         else{
-            pull.style.display='block'
-            clear.style.display='none'
+            pull.style.display='none'
+            clear.style.display='block'
             dialog.showModal()
         }
 })
