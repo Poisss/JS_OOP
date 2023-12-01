@@ -5,6 +5,8 @@ $command=explode('/',$path);
 match ($command[3]) {
     '' => 'main',
     'basket'=> basket(),
+    'test'=> test(),
+    'answer'=> answer(),
     'buy'=> buy(),
     'user'=> user(),
     'userLast'=> userLast(),
@@ -20,10 +22,10 @@ match ($command[3]) {
     'addPurchase'=> addPurchase(),
     'search'=> search(),
     'balance'=> balance(),
-    'test'=> test(),
+    'testp'=> testp(),
     default => '404',
 };
-function test(){
+function testp(){
     include 'database/db.php';
     header('Content-Type: application/json');
     http_response_code(200);
@@ -35,6 +37,32 @@ function test(){
     }
     var_dump($spent);
 };
+function answer(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $data = json_decode(file_get_contents('php://input'), true);
+    $id=$data['id'];;
+    $answer=$data['answer'];;
+    $result=$db->query("select * from test where id='$id'");  
+    $test=$result->fetchAll(PDO::FETCH_ASSOC)[0];
+    if($test['answer_true']==$answer){
+        $right=true;
+    }else{
+        $right=false;
+    }
+    echo json_encode(['right'=>$right,]);
+};
+function test(){
+    include 'database/db.php';
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    http_response_code(200);
+    $result=$db->query("select * from test");  
+    $test=$result->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['test'=>$test,]);
+};
 function buy(){
     include 'database/db.php';
     header('Content-Type: application/json');
@@ -42,9 +70,14 @@ function buy(){
     http_response_code(200);
     $id=explode('/',$_SERVER['REQUEST_URI'])[4];
     $qty=explode('/',$_SERVER['REQUEST_URI'])[5];
-    $result=$db->query("update products set qty=qry-$qty where id=$id");  
-    $author=$result->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode(['author'=>$author,]);
+    $result=$db->query("select * from products where id='$id'");
+    $product=$result->fetchAll(PDO::FETCH_ASSOC)[0]['qty'];
+    if($product<$qty){
+        echo json_encode(['status'=>'Не хватает товаров']);
+    }else{
+        $db->query("update products set qty=qty-'$qty' where id='$id'");  
+        echo json_encode(['status'=>'Товар куплен']);
+    }
 };
 function basket(){
     include 'database/db.php';

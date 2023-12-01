@@ -76,7 +76,7 @@
                         Всего: <span class="price"></span>р
                     </h1>
                     <hr>
-                    <button>
+                    <button class="btn-buy">
                         Купить
                     </button>
                     <button class="btn-clear">
@@ -101,6 +101,7 @@ let content=document.querySelector('.content')
 let dialog_content=document.querySelector('.dialog-content')
 let price=document.querySelector('.price')
 let btn_clear=document.querySelector('.btn-clear')
+let btn_buy=document.querySelector('.btn-buy')
 let basket=[]
 let pull=document.querySelector('.pull')
 let clear=document.querySelector('.clear')
@@ -108,6 +109,17 @@ btn_clear.addEventListener('click',()=>{
     basket=[]
     pull.style.display='none'
     clear.style.display='block'
+})
+btn_buy.addEventListener('click',()=>{   
+    basket.forEach((element)=>{
+                fetch('http://localhost/cringeProject/cringeApiTwo2/buy/'+element['id']+'/'+element['qty'])
+                .then((e)=>e.json())
+                .then((data)=>{
+                });
+            })
+            basket=[]
+            pull.style.display='none'
+            clear.style.display='block'
 })
 btn_basket.addEventListener('click',()=>{   
         if(basket.length>0){
@@ -122,7 +134,7 @@ btn_basket.addEventListener('click',()=>{
                     price.innerHTML=sum_p
                 });
             })
-            pull.style.display='block'
+            pull.style.display='block' 
             clear.style.display='none'
             dialog.showModal()
         }
@@ -163,7 +175,6 @@ function click1(){
             }else{
                 basket.push({id:e.target.value,qty:1})
             }
-            console.log(basket); 
         })
     })
 }

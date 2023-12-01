@@ -1,5 +1,10 @@
 <h1>Меню</h1>
 <p>
+    <a href="test">
+        <button>Тест</button>
+    </a>
+</p>
+<p>
     <a href="basket">
         <button>Корзина</button>
     </a>
